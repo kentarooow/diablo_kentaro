@@ -11,7 +11,7 @@ def generate_launch_description():
             parameters=[
                 '/home/kentaro/diablo_ws/src/diablo_kentaro/diablo_localization/config/ekf.yaml'
             ],
-            remappings = [('odometry', 'odometry'),
-                          ('imu/data', 'imu/data')]
+            remappings = [('odometry', 'diablo/odometry'),
+                          ('imu/data', 'diablo/sensor/Imu'),]
         ),
     ])
