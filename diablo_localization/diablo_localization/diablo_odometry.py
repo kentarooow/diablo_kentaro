@@ -3,6 +3,7 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry  # Ensure this is the correct import for publishing odometry
 from motion_msgs.msg import LegMotors  # Adjust this to the correct import path
 import math
+from tf_transformations import quaternion_from_euler  # Import to convert theta to quaternion
 
 class DiabloOdometry(Node):
     def __init__(self):
@@ -46,12 +47,21 @@ class DiabloOdometry(Node):
         odom_msg.header.stamp = self.get_clock().now().to_msg()
         odom_msg.header.frame_id = 'odom'
 
+        # Set position
         odom_msg.pose.pose.position.x = self.robot.Pose.x
         odom_msg.pose.pose.position.y = self.robot.Pose.y
-        odom_msg.pose.pose.orientation.z = self.robot.Pose.theta  # Simplified, you may need quaternion
 
+        # Convert theta to quaternion for orientation
+        quaternion = quaternion_from_euler(0, 0, self.robot.Pose.theta)  # roll and pitch are 0 for 2D case
+        odom_msg.pose.pose.orientation.x = quaternion[0]
+        odom_msg.pose.pose.orientation.y = quaternion[1]
+        odom_msg.pose.pose.orientation.z = quaternion[2]
+        odom_msg.pose.pose.orientation.w = quaternion[3]
+
+        # Publish the odometry message
         self.odom_pub.publish(odom_msg)
 
+        # Log position
         position = odom_msg.pose.pose.position
         self.get_logger().info(f'Position - x: {position.x}, y: {position.y}, z: {position.z}')
 

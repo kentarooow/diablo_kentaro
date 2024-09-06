@@ -9,7 +9,9 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
+
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name, ['launch/ekf_launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,7 +22,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'diablo_odometry = diablo_localization.diablo_odometry:main', 
+            'diablo_odometry = diablo_localization.diablo_odometry:main',
+            'odom_listener = diablo_localization.odom_listener:main',
         ],
     },
 )

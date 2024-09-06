@@ -1,0 +1,36 @@
+ekf_node:
+  ros__parameters:
+    frequency: 50.0
+    sensor_timeout: 0.1
+    two_d_mode: true
+
+    # IMU configuration
+    odom0: /diablo/odometry
+    odom0_config: [true, true, false,  # x, y, z positions
+                  true, true, true,  # roll, pitch, yaw
+                  false, false, false,     # x, y, z velocities
+                  false, false, false,   # x, y, z accelerations
+                  false, false, false]  # biases on the above quantities
+    
+    odom0_differential: false
+
+
+
+
+
+    imu0: /diablo/sensor/Imu  # Replace with your actual IMU topic name
+    imu0_config: [false, false, false,  # x, y, z positions
+                  true, true, true,  # roll, pitch, yaw
+                  false, false, false,     # x, y, z velocities
+                  true, true, false,   # x, y, z accelerations
+                  false, false, false]  # biases on the above quantities
+    imu0_differential: false
+    imu0_relative: true
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: true
+
+    # Frame settings
+    world_frame: odom
+    odom_frame: odom
+    base_link_frame: diablo_robot
+    map_frame: map
